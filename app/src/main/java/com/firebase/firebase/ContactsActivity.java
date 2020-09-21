@@ -18,12 +18,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 public class ContactsActivity extends AppCompatActivity {
 
     EditText ContactName, ContactNumber, Email;
     Button Add, Back;
     FirebaseAuth mFirebaseAuth;
+    FirebaseDatabase firebaseDatabase;
+    Add a=new Add();
+
     private FirebaseAuth.AuthStateListener maAthStateListener;
 
     @Override
@@ -40,9 +46,14 @@ public class ContactsActivity extends AppCompatActivity {
         Add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = Email.getText().toString();
+
+                String email=Email.getText().toString();
+
                 String name = ContactName.getText().toString();
                 String number = ContactNumber.getText().toString();
+                a.setEmail(email);
+                a.setName(name);
+                a.setContact(number);
                 if (email.isEmpty()) {
                     Email.setError("Please Enter Valid Email Id");
                     Email.requestFocus();
@@ -59,6 +70,7 @@ public class ContactsActivity extends AppCompatActivity {
 
 
                         else {
+                           firebaseDatabase.getInstance().getReference("Add").child(ContactNumber.getText().toString()).setValue(a);
                             startActivity(new Intent(ContactsActivity.this,Contact_ListActivity.class));
 
                 }

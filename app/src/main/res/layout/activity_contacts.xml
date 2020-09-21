@@ -29,7 +29,6 @@
         android:id="@+id/btnAdd"
         android:layout_width= "match_parent"
         android:layout_height= "wrap_content"
-        android:onClick= "addContact"
         android:text= "ADD" />
     <Button
         android:id="@+id/Back"
