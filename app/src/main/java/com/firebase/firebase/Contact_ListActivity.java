@@ -20,7 +20,6 @@ import java.util.ArrayList;
 public class Contact_ListActivity extends AppCompatActivity {
 FirebaseDatabase firebaseDatabase;
 ArrayList<String> arrayList=new ArrayList<>();
-
 ListView listView;
 
     @Override
@@ -33,7 +32,7 @@ ListView listView;
 
 
         final ArrayAdapter<Add> details= new ArrayAdapter<Add>(this,R.layout.activity_contact__list);
-listView.setAdapter(details);
+        listView.setAdapter(details);
 databaseReference.addChildEventListener(new ChildEventListener() {
     @Override
     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
