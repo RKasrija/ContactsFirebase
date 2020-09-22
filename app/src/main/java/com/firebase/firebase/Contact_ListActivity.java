@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -16,32 +17,49 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Contact_ListActivity extends AppCompatActivity {
 FirebaseDatabase firebaseDatabase;
-ArrayList<String> arrayList=new ArrayList<>();
+ArrayList<String> arrayList;
 ListView listView;
+    Add a;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact__list);
-        listView=(ListView)findViewById(R.id.list) ;
-
+        listView= findViewById(R.id.list);
         DatabaseReference databaseReference =FirebaseDatabase.getInstance().getReference("Add");
 
 
-        final ArrayAdapter<Add> details= new ArrayAdapter<Add>(this,R.layout.activity_contact__list);
+        final ArrayAdapter<String> details= new ArrayAdapter<>(this, R.layout.activity_contact__list);
+
         listView.setAdapter(details);
 databaseReference.addChildEventListener(new ChildEventListener() {
     @Override
     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-        String value=snapshot.getValue().toString();
-        arrayList.add(value);
-        details.notifyDataSetChanged();
+        try {
 
 
-    }
+            if (snapshot.exists()) {
+                a = snapshot.getValue(Add.class);
+                if (a.toString() != null) {
+                    arrayList.add(a.toString());
+                } else
+
+
+                    details.notifyDataSetChanged();
+            } else {
+                Toast.makeText(Contact_ListActivity.this, "NO DATA", Toast.LENGTH_LONG).show();
+            }
+        }catch (Exception e)
+        {
+            e.getStackTrace();
+        }
+
+
+     }
 
     @Override
     public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
